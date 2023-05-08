@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for kcp.
-GH_REPO="https://www.kcp.io/"
+GH_REPO="https://github.com/kcp-dev/kcp"
 TOOL_NAME="kcp"
 TOOL_TEST="kcp --version"
 
