@@ -64,15 +64,21 @@ get_machine_arch() {
 download_release() {
 	local version filename url
 	version="$1"
-	filename="$2"
+	name="$2"
 	os=$(get_machine_os)
 	arch=$(get_machine_arch)
+	release_file="$ASDF_DOWNLOAD_PATH/${name}_${version}.tar.gz"
 
 	# TODO: Adapt the release URL convention for kcp
-	url="$GH_REPO/releases/download/v${version}/${TOOL_NAME}_${version}_${os}_${arch}.tar.gz"
+	url="$GH_REPO/releases/download/v${version}/${name}_${version}_${os}_${arch}.tar.gz"
 
-	echo "* Downloading $TOOL_NAME release $version..."
-	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
+	echo "* Downloading $name release $version..."
+	curl "${curl_opts[@]}" -o "$release_file" -C - "$url" || fail "Could not download $url"
+
+	tar -xzf "$release_file" -C "$ASDF_DOWNLOAD_PATH" --strip-components=1 || fail "Could not extract $release_file"
+
+	# Remove the tar.gz file since we don't need to keep it
+  rm "$release_file"
 }
 
 install_version() {
