@@ -37,34 +37,34 @@ list_all_versions() {
 }
 
 get_machine_os() {
-  local OS
-  OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+	local OS
+	OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-  case "${OS}" in
-    darwin*) echo "darwin" ;;
-     linux*) echo "linux" ;;
-          *) fail "OS not supported: ${OS}" ;;
-  esac
+	case "${OS}" in
+	darwin*) echo "darwin" ;;
+	linux*) echo "linux" ;;
+	*) fail "OS not supported: ${OS}" ;;
+	esac
 }
 
 get_machine_arch() {
-  local ARCH
-  ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
+	local ARCH
+	ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
-  case "${ARCH}" in
-       i?86) echo "386" ;;
-     x86_64) echo "amd64" ;;
-    aarch64) echo "arm64" ;;
-     armv8l) echo "arm64" ;;
-      arm64) echo "arm64" ;;
-          *) fail "Architecture not supported: $ARCH" ;;
-  esac
+	case "${ARCH}" in
+	i?86) echo "386" ;;
+	x86_64) echo "amd64" ;;
+	aarch64) echo "arm64" ;;
+	armv8l) echo "arm64" ;;
+	arm64) echo "arm64" ;;
+	*) fail "Architecture not supported: $ARCH" ;;
+	esac
 }
 
 download_release() {
-	local version filename url
-	version="$1"
-	name="$2"
+	local version url
+	name="$1"
+	version="$2"
 	os=$(get_machine_os)
 	arch=$(get_machine_arch)
 	release_file="$ASDF_DOWNLOAD_PATH/${name}_${version}.tar.gz"
@@ -78,7 +78,7 @@ download_release() {
 	tar -xzf "$release_file" -C "$ASDF_DOWNLOAD_PATH" --strip-components=1 || fail "Could not extract $release_file"
 
 	# Remove the tar.gz file since we don't need to keep it
-  rm "$release_file"
+	rm "$release_file"
 }
 
 install_version() {
